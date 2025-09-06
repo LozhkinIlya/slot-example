@@ -1,0 +1,31 @@
+{
+  "name": "slot-game-example",
+  "version": "1.0.0",
+  "description": "Slot game example using PixiJS and TypeScript",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "webpack serve --mode development",
+    "build": "webpack --mode production",
+    "dev": "webpack --mode development --watch"
+  },
+  "dependencies": {
+    "pixi.js": "^7.3.2",
+    "gsap": "^3.12.2"
+  },
+  "devDependencies": {
+    "@types/gsap": "^3.0.0",
+    "@types/node": "^20.8.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.8.1",
+    "html-webpack-plugin": "^5.5.3",
+    "style-loader": "^3.3.3",
+    "ts-loader": "^9.5.0",
+    "typescript": "^5.2.2",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  },
+  "keywords": ["pixi", "typescript", "slot", "game"],
+  "author": "",
+  "license": "MIT"
+}
