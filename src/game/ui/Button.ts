@@ -9,6 +9,8 @@ export class Button {
     private baseColor: number;
     private hoverColor: number;
     private disabledColor: number = 0x666666;
+    private originalWidth: number;
+    private originalHeight: number;
     
     public onClick: () => void = () => {};
 
@@ -22,10 +24,14 @@ export class Button {
         this.container = new PIXI.Container();
         this.baseColor = color;
         this.hoverColor = this.lightenColor(color, 0.2);
+        this.originalWidth = width;
+        this.originalHeight = height;
         
         this.createBackground(width, height);
         this.createText(labelText);
         this.setupInteraction();
+        
+        this.container.pivot.set(width / 2, height / 2);
     }
 
     private createBackground(width: number, height: number): void {
@@ -67,8 +73,7 @@ export class Button {
     }
 
     private centerText(): void {
-        const bounds = this.background.getBounds();
-        this.text.position.set(bounds.width / 2, bounds.height / 2);
+        this.text.position.set(this.originalWidth / 2, this.originalHeight / 2);
     }
 
     private setupInteraction(): void {
@@ -86,32 +91,28 @@ export class Button {
         if (!this.isEnabled) return;
         
         this.container.scale.set(0.95);
-        const bounds = this.background.getBounds();
-        this.drawBackground(bounds.width, bounds.height, this.darkenColor(this.baseColor, 0.2));
+        this.drawBackground(this.originalWidth, this.originalHeight, this.darkenColor(this.baseColor, 0.2));
     }
 
     private onPointerUp(): void {
         if (!this.isEnabled) return;
         
         this.container.scale.set(1);
-        const bounds = this.background.getBounds();
-        this.drawBackground(bounds.width, bounds.height, this.hoverColor);
+        this.drawBackground(this.originalWidth, this.originalHeight, this.hoverColor);
         this.onClick();
     }
 
     private onPointerOver(): void {
         if (!this.isEnabled) return;
         
-        const bounds = this.background.getBounds();
-        this.drawBackground(bounds.width, bounds.height, this.hoverColor);
+        this.drawBackground(this.originalWidth, this.originalHeight, this.hoverColor);
     }
 
     private onPointerOut(): void {
         if (!this.isEnabled) return;
         
         this.container.scale.set(1);
-        const bounds = this.background.getBounds();
-        this.drawBackground(bounds.width, bounds.height, this.baseColor);
+        this.drawBackground(this.originalWidth, this.originalHeight, this.baseColor);
     }
 
     public setEnabled(enabled: boolean): void {
@@ -121,14 +122,12 @@ export class Button {
             this.container.eventMode = 'static';
             this.container.cursor = 'pointer';
             this.container.alpha = 1;
-            const bounds = this.background.getBounds();
-            this.drawBackground(bounds.width, bounds.height, this.baseColor);
+            this.drawBackground(this.originalWidth, this.originalHeight, this.baseColor);
         } else {
             this.container.eventMode = 'none';
             this.container.cursor = 'default';
             this.container.alpha = 0.6;
-            const bounds = this.background.getBounds();
-            this.drawBackground(bounds.width, bounds.height, this.disabledColor);
+            this.drawBackground(this.originalWidth, this.originalHeight, this.disabledColor);
         }
     }
 

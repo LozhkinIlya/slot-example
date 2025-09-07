@@ -1,7 +1,7 @@
 {
   "name": "slot-game-example",
   "version": "1.0.0",
-  "description": "Slot game example using PixiJS and TypeScript",
+  "description": "",
   "main": "dist/index.js",
   "scripts": {
     "start": "webpack serve --mode development",

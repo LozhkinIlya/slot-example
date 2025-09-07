@@ -49,20 +49,23 @@ export class Symbol {
 
     private updateVisual(): void {
         const symbol = Symbol.SYMBOLS[this.symbolType] || Symbol.SYMBOLS[0];
+        const padding = 10;
+        const actualSize = this.symbolSize - padding; 
         
         this.graphic.clear();
         
         this.graphic.beginFill(0xF8F9FA);
         this.graphic.lineStyle(2, symbol.color);
-        this.graphic.drawRoundedRect(0, 0, this.symbolSize, this.symbolSize, 8);
+        this.graphic.drawRoundedRect(padding / 2, padding / 2, actualSize, actualSize, 8);
         this.graphic.endFill();
 
         this.graphic.beginFill(symbol.color, 0.1);
-        this.graphic.drawRoundedRect(2, 2, this.symbolSize - 4, this.symbolSize - 4, 6);
+        this.graphic.drawRoundedRect(padding / 2 + 2, padding / 2 + 2, actualSize - 4, actualSize - 4, 6);
         this.graphic.endFill();
 
         this.text.text = symbol.emoji;
         this.text.style.fill = symbol.color;
+        this.text.position.set(this.symbolSize / 2, this.symbolSize / 2);
     }
 
     public setType(type: number): void {

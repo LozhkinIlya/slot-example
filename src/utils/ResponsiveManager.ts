@@ -7,6 +7,7 @@ export interface DeviceConfig {
     isMobile: boolean;
     isTablet: boolean;
     isDesktop: boolean;
+    uiLayout: 'bottom' | 'side';
 }
 
 export class ResponsiveManager {
@@ -39,12 +40,12 @@ export class ResponsiveManager {
 
         if (isMobile) {
             if (aspectRatio > baseWidth / baseHeight) {
-                gameHeight = Math.min(height * 0.9, baseHeight);
+                gameHeight = Math.min(height * 1.17, baseHeight * 1.3); 
                 gameWidth = gameHeight * (baseWidth / baseHeight);
                 scale = gameHeight / baseHeight;
             } else {
                 gameWidth = Math.min(width * 0.95, baseWidth);
-                gameHeight = gameWidth * (baseHeight / baseWidth);
+                gameHeight = gameWidth * (baseHeight / baseWidth) * 1.3;
                 scale = gameWidth / baseWidth;
             }
         } else if (isTablet) {
@@ -59,13 +60,16 @@ export class ResponsiveManager {
             gameHeight = baseHeight * scale;
         }
 
+        const uiLayout = isMobile ? 'bottom' : 'side';
+        
         return {
             width: Math.floor(gameWidth),
             height: Math.floor(gameHeight),
             scale,
             isMobile,
             isTablet,
-            isDesktop
+            isDesktop,
+            uiLayout 
         };
     }
 
@@ -126,6 +130,24 @@ export class ResponsiveManager {
 
     public isDesktop(): boolean {
         return this.config.isDesktop;
+    }
+
+    public getUILayout(): 'bottom' | 'side' {
+        return this.config.uiLayout;
+    }
+
+    public getUIWidth(): number {
+        if (this.config.uiLayout === 'side') {
+            return Math.floor(250 * this.getUIScale());
+        }
+        return this.config.width;
+    }
+
+    public getUIHeight(): number {
+        if (this.config.uiLayout === 'bottom') {
+            return this.config.isMobile ? 120 : 150;
+        }
+        return this.config.height;
     }
 
     public getUIScale(): number {

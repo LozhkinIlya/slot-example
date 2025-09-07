@@ -59,10 +59,6 @@ export class SlotGame {
                 this.spin();
             }
         };
-
-        this.gameUI.onBetChange = (newBet: number) => {
-            this.gameState.setBet(newBet);
-        };
     }
 
     private setupResponsive(): void {

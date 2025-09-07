@@ -8,7 +8,7 @@ export class SlotMachine {
     private reels: Reel[] = [];
     private readonly REEL_COUNT = 3;
     private readonly SYMBOL_COUNT = 3;
-    private reelWidth: number = 120;
+    private reelWidth: number = 100;
     private symbolHeight: number = 100;
     private background: PIXI.Graphics;
 
@@ -44,7 +44,7 @@ export class SlotMachine {
     private drawBackground(): void {
         this.background.clear();
         
-        const totalWidth = this.REEL_COUNT * this.reelWidth + 40;
+        const totalWidth = this.REEL_COUNT * this.reelWidth + 25;
         const totalHeight = this.SYMBOL_COUNT * this.symbolHeight + 40;
         
         this.background.beginFill(0x2c2c54);
@@ -74,11 +74,28 @@ export class SlotMachine {
             reel.updateSize(this.symbolHeight);
         });
         
-        const uiHeight = this.responsiveManager.isMobile() ? 120 : 150;
-        this.container.position.set(
-            (this.app.screen.width - this.container.width) / 2,
-            (this.app.screen.height - this.container.height - uiHeight) / 2
-        );
+        const uiLayout = this.responsiveManager.getUILayout();
+        const slotMachineWidth = this.container.width;
+        const slotMachineHeight = this.container.height;
+        
+        let centerX: number;
+        let centerY: number;
+        
+        if (uiLayout === 'side') {
+            const uiWidth = this.responsiveManager.getUIWidth();
+            const availableWidth = this.app.screen.width - uiWidth;
+            
+            centerX = availableWidth / 2 - slotMachineWidth / 2;
+            centerY = (this.app.screen.height - slotMachineHeight) / 2;
+        } else {
+            const uiHeight = this.responsiveManager.getUIHeight();
+            const availableHeight = this.app.screen.height - uiHeight;
+            
+            centerX = (this.app.screen.width - slotMachineWidth) / 2;
+            centerY = availableHeight / 2 - slotMachineHeight / 2;
+        }
+        
+        this.container.position.set(centerX, centerY);
     }
 
     public async spin(): Promise<number[][]> {

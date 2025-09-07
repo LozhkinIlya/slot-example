@@ -103,7 +103,7 @@ export class Reel {
             }, spinDuration - 0.3);
 
             let currentOffset = 0;
-            const totalDistance = (this.visibleSymbols + this.EXTRA_SYMBOLS) * this.symbolHeight * 3; // 3 полных оборота
+            const totalDistance = (this.visibleSymbols + this.EXTRA_SYMBOLS) * this.symbolHeight * 3;
 
             tl.to({}, {
                 duration: spinDuration,
